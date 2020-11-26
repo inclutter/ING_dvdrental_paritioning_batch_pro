@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    date : 2020/11/26
+    file_name : FilmMapper
+    package_name : mapper
+    project_name : dvdrental-partitioning-batch
+    user : gangmin-u
+    Outline : 
+    Desction : 
+    -->
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dvdrental.batch.business.mapper.FilmMapper">
+    <select id="selectFilmList" resultType="filmVO">
+        SELECT
+            FILM_ID AS filmId,
+            TITLE AS title,
+            DESCRIPTION AS description,
+            RELEASE_YEAR AS releaseYear,
+            LANGUAGE_ID AS languageId,
+            RENTAL_DURATION AS rentalDuration,
+            RENTAL_RATE AS rentalRate,
+            LENGTH AS length,
+            REPLACEMENT_COST AS replacementCost,
+            RATING AS rating,
+            FULLTEXT AS fulltext
+        FROM PUBLIC.film
+    </select>
+
+    <delete id="deleteFilmInfo">
+        TRUNCATE PUBLIC.backup_film
+    </delete>
+
+    <insert id="insertFilmInfo" parameterType="filmVO">
+        INSERT INTO PUBLIC.film (
+            FILM_ID,
+            TITLE,
+            DESCRIPTION,
+            RELEASE_YEAR,
+            LANGUAGE_ID,
+            RENTAL_DURATION,
+            RENTAL_RATE,
+            LENGTH,
+            REPLACEMENT_COST,
+            RATING,
+            LSAT_UPDATE,
+            FULLTEXT
+        )
+        VALUES(
+            #{filmId},
+            #{title},
+            #{description},
+            #{releaseYear},
+            #{languageId},
+            #{rentalDuration},
+            #{rentalRate},
+            #{length},
+            #{replacementCost},
+            #{rating},
+            NOW(),
+            #{fulltext}
+        )
+    </insert>
+</mapper>
